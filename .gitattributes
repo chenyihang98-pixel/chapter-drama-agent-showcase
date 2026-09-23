@@ -1,0 +1,5 @@
+# 演示视频、字幕与图片按原样保存，不做换行符转换
+*.mp4 binary
+*.srt -text
+*.jpg binary
+*.png binary
