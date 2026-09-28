@@ -1,57 +1,75 @@
 <h1 align="center">章节短剧工作台</h1>
 
-<p align="center">小说转动画短剧 Agent：从文本、角色与分镜，到配音、视频和字幕的一体化制作</p>
+<p align="center">从文本到动画与写实短片的一体化制作 Agent</p>
 
 <p align="center">
-  <a href="https://github.com/chenyihang98-pixel/chapter-drama-agent-showcase/raw/main/assets/demo/fable-48s.zh.mp4">
-    <img src="assets/images/demo-poster.jpg" width="280" alt="《狼来了》演示视频">
+  <a href="https://github.com/chenyihang98-pixel/chapter-drama-agent-showcase/raw/main/assets/demo/jiangjinjiu-49s.zh.mp4">
+    <img src="assets/images/jiangjinjiu-poster.jpg" width="260" alt="将进酒 作品演示封面">
   </a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/chenyihang98-pixel/chapter-drama-agent-showcase/raw/main/assets/demo/fable-48s.zh.mp4"><b>▶ 观看演示：《狼来了》</b></a><br>
-  48 秒 · 6 个镜头 · 中文配音与字幕 · 9:16 竖屏
+  <a href="https://github.com/chenyihang98-pixel/chapter-drama-agent-showcase/raw/main/assets/demo/jiangjinjiu-49s.zh.mp4"><b>▶ 将进酒｜49 秒｜写实诗词节选｜中文朗诵与字幕</b></a>
 </p>
+
+<div align="center">
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/chenyihang98-pixel/chapter-drama-agent-showcase/raw/main/assets/demo/kezhou-40s.zh.mp4"><img src="assets/images/kezhou-poster.jpg" width="130" alt="刻舟求剑 作品演示封面"></a><br>
+      <a href="https://github.com/chenyihang98-pixel/chapter-drama-agent-showcase/raw/main/assets/demo/kezhou-40s.zh.mp4">▶ 刻舟求剑</a><br>
+      <sub>40 秒｜动画寓言</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/chenyihang98-pixel/chapter-drama-agent-showcase/raw/main/assets/demo/fable-48s.zh.mp4"><img src="assets/images/demo-poster.jpg" width="130" alt="狼来了 作品演示封面"></a><br>
+      <a href="https://github.com/chenyihang98-pixel/chapter-drama-agent-showcase/raw/main/assets/demo/fable-48s.zh.mp4">▶ 狼来了</a><br>
+      <sub>48 秒｜动画寓言</sub>
+    </td>
+  </tr>
+</table>
+</div>
+
+<p align="center"><sub>作品演示 · 点击封面或标题观看（MP4）</sub></p>
 
 ## 简介
 
-章节短剧工作台是一款桌面应用。导入小说章节或短篇故事后，按步骤完成人物与剧情整理、分镜设计、人物形象与关键帧生成、角色配音和镜头视频制作，最后在本地合成带字幕的竖屏短片。
+章节短剧工作台是一款桌面应用。导入小说章节、故事或诗词并确认一次有限的制作范围后，应用会在范围内自动推进人物、剧情、分镜、画面、配音和镜头视频，并在本地合成带字幕的竖屏初稿；你也可以随时接管同一任务，逐项精调。
 
 ## 功能
 
-- **分阶段制作**：输入原文 → 人物审核 → 剧情方案 → 角色参考（可选）→ 形象与声音 → 镜头设计 → 视频制作 → 成片与导出，每一步都可以查看和修改。
-- **确认后执行**：人物、剧情、形象、声线和关键帧由用户选用；付费请求发送前列出所用模型、调用次数和参考费用。
-- **进度保存与复用**：任务进度、已选素材和远端任务状态保存在本地，中断后可以继续，已完成的镜头和配音直接复用。
-- **本地合成与导出**：按配音时长排布台词，用 FFmpeg 合成成片；支持字幕和音量调节，可导出 MP4 与 SRT。
+- **自动初稿**：确认一次制作范围（风格、上传素材与调用上限），应用在范围内完成常规选择与推进，生成带字幕的初稿，检查中发现的问题作为备注保留。
+- **同一任务精调**：随时接管，在细节编辑中修改剧情、形象、声音或单个镜头，改完可以继续自动推进。
+- **按原因恢复**：远端已接受的任务接着取回同一结果，结果未知的请求不自动重发，已保存的镜头与配音直接复用；需要你决定时会停下说明。
+- **本地成片**：在本地合成画面、声音与字幕，导出 MP4、SRT 和项目资料。
 
 ## 架构
 
 ```mermaid
 flowchart TB
-    USER(["用户"]) -->|"审核 · 选用 · 确认"| UI["桌面界面<br/>PySide6 · Qt Quick / QML<br/>八步流程 · 播放与导出"]
-    UI <--> APP["任务编排（Python）<br/>分阶段任务 · 制作范围确认<br/>候选与选用 · 恢复与复用"]
-    APP <-->|"确认后发送<br/>返回候选"| MODELS
-    APP <-->|"读写"| DB[("本地任务状态<br/>SQLite：进度 · 人工决定<br/>请求记录 · 远端任务编号<br/>图片 · 配音 · 视频文件")]
-    APP --> FF["本地合成与导出<br/>FFmpeg：按配音时间轴拼接<br/>字幕 · MP4 / SRT"]
+    USER(["用户"]) -->|"确认范围 · 随时接管"| UI["桌面界面<br/>PySide6 · Qt Quick / QML<br/>自动初稿 · 细节编辑<br/>播放与导出"]
+    UI <--> APP["任务编排（Python）<br/>范围内自动推进<br/>同一任务接管精调<br/>候选与选用 · 恢复与复用"]
+    APP <-->|"范围内发送<br/>返回候选"| MODELS
+    APP <-->|"读写"| DB[("本地任务状态<br/>SQLite：进度 · 选择与决定<br/>请求记录 · 远端任务编号<br/>图片 · 配音 · 视频文件")]
+    APP --> FF["本地合成与导出<br/>FFmpeg：画面 · 声音 · 字幕<br/>MP4 · SRT · 项目资料"]
     subgraph MODELS["五类模型服务（按用途接入）"]
         direction LR
         T["剧情与分镜 · Kimi"]
         V["画面检查 · Qwen"]
-        I["人物与关键帧 · Seedream"]
+        I["人物与画面 · Seedream"]
         M["镜头视频 · Seedance"]
-        S["对白与旁白 · 豆包语音"]
+        S["角色配音 · 豆包语音"]
     end
 ```
 
 ## 模型分工
 
-| 用途 | 模型 |
+| 用途 | 模型（演示使用配置） |
 |---|---|
 | 剧情与分镜 | Kimi K3（月之暗面） |
 | 画面检查 | Qwen3.8-Max（阿里云） |
-| 人物与关键帧 | Seedream 5.0 Pro（火山方舟） |
+| 人物与画面 | Seedream 5.0 Pro（火山方舟） |
 | 镜头视频 | Seedance 2.5（火山方舟） |
-| 对白与旁白 | Seed TTS 2.0（豆包语音） |
+| 角色配音 | Seed TTS 2.0（豆包语音） |
 | 合成与导出 | FFmpeg（本地） |
 
 ## 技术栈
